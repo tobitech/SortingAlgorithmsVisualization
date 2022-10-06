@@ -33,7 +33,7 @@ struct ContentView: View {
             
             Button("Sort it!") {
                 Task {
-                    try await insertionSort()
+                    try await quickSort(&data, low: 0, high: data.count - 1)
                     activeValue = 0
                     previousValue = 0
                     
@@ -185,6 +185,68 @@ struct ContentView: View {
                 }
             }
         }
+    }
+    
+    // quick sort is a comparison based sorting algorithm. it's similar to other algorithms that we used so far.
+    // it uses a divide and conquer strategy and recusion.
+    // the algorithm will look for the pivot point first, then it will split the array into two parts and if necessary, it can keep splitting and calling itself.
+    // because it's recursion based, we will add an array that we will be using as input variable. we used inout so that we can mutate the input.
+    // the low and high are the indexes we'll be passing to the function that we will like to operate on.
+    @MainActor
+    func quickSort(_ array: inout [Int], low: Int, high: Int) async throws {
+        if low < high {
+            let pivot = try await pivot(&array, low: low, high: high)
+            // sort the left side
+            try await quickSort(&array, low: low, high: pivot - 1)
+            // sort the right side
+            try await quickSort(&array, low: pivot + 1, high: high)
+        }
+    }
+    
+    // there are many implementations of the quick sort algorith:
+    // the approach we will use here is the lemur partition scheme.
+    // it's not the most efficient one as it does more array swaps but it will make the visualisation more interesting with more swaps.
+    // the pivot function takes the last element as pivot, places the pivot element at its correct position and places elements smaller than the pivot to the left and the ones higher to the right of the pivot.
+    // let's take this example [6, 7, 2, 1, 3]
+    // we take 3 as the pivot: i and j will start at 0
+    // then we will compare the element in the index of j and the element in the pivot
+    // if the element in j is smaller than the pivot we will continue looping
+    // ...
+    @MainActor
+    func pivot(_ array: inout [Int], low: Int, high: Int) async throws -> Int {
+        let pivot = array[high]
+        
+        var i = low
+        for j in low..<high {
+            if array[j] <= pivot {
+                // for visualisation
+                activeValue = array[i]
+                previousValue = array[j]
+                beep(array[i])
+                try await Task.sleep(until: .now.advanced(by: .milliseconds(20)), clock: .continuous)
+                
+                // since we're using inout we also need to swap on our data that will be displayed in the chart.
+                data.swapAt(i, j)
+                
+                array.swapAt(i, j)
+                i += 1
+            }
+            
+            // for visualisation - reset these values.
+            activeValue = 0
+            previousValue = 0
+        }
+        
+        // for visualisation
+        activeValue = array[i]
+        previousValue = array[high]
+        beep(array[i])
+        try await Task.sleep(until: .now.advanced(by: .milliseconds(20)), clock: .continuous)
+        
+        data.swapAt(i, high)
+        array.swapAt(i, high)
+        
+        return i
     }
 }
 
