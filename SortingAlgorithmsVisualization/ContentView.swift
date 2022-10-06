@@ -114,6 +114,7 @@ struct ContentView: View {
     // we compare 9 with the next element which is 7, since 7 is smaller, 7 will now be the smallest element
     // now because the smallest element is not equals to the element at the sorting index 9 we will perform a swap.
     // we now have [1, 4, 7, 9] - a completely sorted array.
+    @MainActor
     func selectionSort() async throws {
         guard data.count > 1 else { return }
         
@@ -124,13 +125,26 @@ struct ContentView: View {
             
             for j in i + 1..<data.count {
                 if data[smallest] > data[j] {
+                    activeValue = data[j]
+                    
+                    beep(data[j])
+                    
                     smallest = j
+                    
+                    // sleep for visualisation purposes.
+                    try await Task.sleep(until: .now.advanced(by: .milliseconds(20)), clock: .continuous)
                 }
             }
             
             // check that the current smallest index is not equal to sorting index
             if smallest != i {
+                activeValue = data[i]
+                previousValue = data[smallest]
+                beep(data[smallest])
+                
                 data.swapAt(smallest, i)
+                
+                try await Task.sleep(until: .now.advanced(by: .milliseconds(20)), clock: .continuous)
             }
         }
     }
