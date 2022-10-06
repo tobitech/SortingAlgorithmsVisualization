@@ -11,6 +11,7 @@
 		20AEA88328EED9EB00B0A988 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AEA88228EED9EB00B0A988 /* ContentView.swift */; };
 		20AEA88528EED9EF00B0A988 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20AEA88428EED9EF00B0A988 /* Assets.xcassets */; };
 		20AEA88828EED9EF00B0A988 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20AEA88728EED9EF00B0A988 /* Preview Assets.xcassets */; };
+		20D0699A28EEE87B00EC7631 /* SignalGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D0699928EEE87B00EC7631 /* SignalGenerator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +20,7 @@
 		20AEA88228EED9EB00B0A988 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		20AEA88428EED9EF00B0A988 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		20AEA88728EED9EF00B0A988 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		20D0699928EEE87B00EC7631 /* SignalGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalGenerator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +55,7 @@
 			children = (
 				20AEA88028EED9EB00B0A988 /* SortingAlgorithmsVisualizationApp.swift */,
 				20AEA88228EED9EB00B0A988 /* ContentView.swift */,
+				20D0699928EEE87B00EC7631 /* SignalGenerator.swift */,
 				20AEA88428EED9EF00B0A988 /* Assets.xcassets */,
 				20AEA88628EED9EF00B0A988 /* Preview Content */,
 			);
@@ -137,6 +140,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20D0699A28EEE87B00EC7631 /* SignalGenerator.swift in Sources */,
 				20AEA88328EED9EB00B0A988 /* ContentView.swift in Sources */,
 				20AEA88128EED9EB00B0A988 /* SortingAlgorithmsVisualizationApp.swift in Sources */,
 			);

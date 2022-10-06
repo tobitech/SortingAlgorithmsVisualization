@@ -38,10 +38,12 @@ struct ContentView: View {
                     previousValue = 0
                     
                     for index in 0..<data.count {
+                        beep(data[index])
+                        
                         checkValue = data[index]
                         
                         // add a little delay
-                        try await Task.sleep(until: .now.advanced(by: .milliseconds(50)), clock: .continuous)
+                        try await Task.sleep(until: .now.advanced(by: .milliseconds(20)), clock: .continuous)
                     }
                 }
             }
@@ -51,6 +53,7 @@ struct ContentView: View {
         }
     }
     
+    @MainActor
     func bubbleSort() async throws {
         // first check if it's just one element otherwise it's already sorted.
         guard data.count > 1 else { return }
@@ -64,9 +67,13 @@ struct ContentView: View {
                 previousValue = data[j]
                 
                 if data[j] > data[j + 1] {
+                    // for audio
+                    beep(data[j + 1])
+                    
                     data.swapAt(j + 1, j)
+                    
                     // add a sleep just for visualisation purposes
-                    try await Task.sleep(until: .now.advanced(by: .milliseconds(50)), clock: .continuous)
+                    try await Task.sleep(until: .now.advanced(by: .milliseconds(20)), clock: .continuous)
                 }
             }
         }
