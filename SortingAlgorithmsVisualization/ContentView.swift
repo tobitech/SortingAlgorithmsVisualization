@@ -33,7 +33,7 @@ struct ContentView: View {
             
             Button("Sort it!") {
                 Task {
-                    try await selectionSort()
+                    try await insertionSort()
                     activeValue = 0
                     previousValue = 0
                     
@@ -145,6 +145,44 @@ struct ContentView: View {
                 data.swapAt(smallest, i)
                 
                 try await Task.sleep(until: .now.advanced(by: .milliseconds(20)), clock: .continuous)
+            }
+        }
+    }
+    
+    // this is an interesting comparison based sorting algorithm.
+    // it's also slow in worst cases: time complexity is O(n^2)
+    // but depending on the data the best caset efficiency is O(n) - the right data is the one that is already sorted.
+    // it is somehow a reverse bubble sort as smaller values are set first and it will go to the right.
+    // sorting index starts at 1 instead of 0 for selection sort and the second loop will start as reversed values so in that case it will go from right to left.
+    // take an example [9, 4, 7, 1]
+    // first we compare the element on the sorting index which is 4 in this case: with the element before it which is 9. since 4 is smaller than 9, it will be swapped.
+    // we now have [4, 9, 7, 1]
+    // we increment the sorting index which will no be 2. and then compare it with the element before it in this case 7 and 9,
+    // since 7 is smaller it will be swapped.
+    // we now have [4, 7, 9, 1]
+    // then from right to left, we will also compare the elements before the current sorting index. i.e. 7 and 4. These are in good place so we don't do need to do anything.
+    // next iteration, we increase the insertion sorting index which will now be 4. then element at that index is now 1. The next iteration is to compare 1 with previous element which is 9.
+    // since 1 is smaller it will be swapped and then we go the other direction to compare. starting with 1 and 7
+    // since 1 is smaller it will be swapped with its place, then moves to the next element on the left which is now 4 and since 1 is smaller once again it will be swapped.
+    // and now we have a completely sorted array.
+    @MainActor
+    func insertionSort() async throws {
+        guard data.count > 1 else { return }
+        
+        // the first loop goes from first element (remember first sorting index is 1 not 0)
+        for i in 1..<data.count {
+            for j in (1...i).reversed() {
+                // compare the element with the previous one
+                if data[j] < data[j - 1] {
+                    activeValue = data[j - 1]
+                    previousValue = data[j]
+                    beep(data[j - 1])
+                    try await Task.sleep(until: .now.advanced(by: .milliseconds(20)), clock: .continuous)
+                    
+                    data.swapAt(j, j - 1)
+                } else {
+                    break
+                }
             }
         }
     }
